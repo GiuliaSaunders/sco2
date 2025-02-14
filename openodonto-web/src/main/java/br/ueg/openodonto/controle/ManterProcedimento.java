@@ -79,7 +79,7 @@ public class ManterProcedimento extends ManageBeanGeral<Procedimento>{
 	}
 	
 	public void setProcedimento(Procedimento procedimento){
-		setProcedimento(procedimento);
+		setBackBean(procedimento);  
 	}
 
 	public Search<Procedimento> getSearch() {

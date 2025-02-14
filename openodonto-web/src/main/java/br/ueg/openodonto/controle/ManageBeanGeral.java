@@ -46,7 +46,7 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	private boolean             canDelete;
 	private DecimalFormat       decimalFormat;
 
-	public ManageBeanGeral(Class<T> classe) {
+	protected ManageBeanGeral(Class<T> classe) {
 		this.classe = classe;
 		init();
 	}

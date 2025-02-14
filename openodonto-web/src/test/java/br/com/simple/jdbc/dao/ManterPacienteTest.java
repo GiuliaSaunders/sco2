@@ -57,7 +57,7 @@ public class ManterPacienteTest {
 	public ManterPacienteTest() {
 		manterPaciente = new ManterPaciente(){
 			private static final long serialVersionUID = -9039185309165031309L;
-
+			@Override
 			public void makeView(Map<String, String> params){
 				this.setView(new UnitTestView(params));
 			}

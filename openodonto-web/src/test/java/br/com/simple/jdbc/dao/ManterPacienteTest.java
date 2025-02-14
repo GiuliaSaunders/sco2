@@ -269,22 +269,7 @@ class Stress implements Runnable{
 		
 		parcial = System.currentTimeMillis();
 		main.create();
-		ManterPacienteTest.timeCreate += System.currentTimeMillis() - parcial;	
-		
-		/*
-		parcial = System.currentTimeMillis();
-		main.recuperar(paciente.getCodigo());
-		ManterPacienteTest.timeRecuperar += System.currentTimeMillis() - parcial;
-		
-		parcial = System.currentTimeMillis();			
-		main.update();
-		main.getManterPaciente().setBackBean(paciente);
-		ManterPacienteTest.timeUpdate += System.currentTimeMillis() - parcial;
-		
-		parcial = System.currentTimeMillis();
-		main.delete();
-		ManterPacienteTest.timeDelete += System.currentTimeMillis() - parcial;
-		*/
+		ManterPacienteTest.timeCreate += System.currentTimeMillis() - parcial;
 		
 	}
 	

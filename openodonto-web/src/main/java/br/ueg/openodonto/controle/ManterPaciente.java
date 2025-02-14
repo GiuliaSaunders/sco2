@@ -48,6 +48,8 @@ public class ManterPaciente extends ManageBeanGeral<Paciente> {
 		super(Paciente.class);
 	}
 
+	@Override
+
 	protected void initExtra() {
 		makeView(params);
 		this.search = new SearchBase<Paciente>(

@@ -115,10 +115,8 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		return Collections.EMPTY_LIST;
 	}
 
-	protected void formatarCamposExtras(){};
 
 	protected void acaoFormatarCampos() throws Exception {
-		formatarCamposExtras();
 		List<String> camposFormatados = getCamposFormatados();
 		for (String path : camposFormatados) {
 			Object o = BeanProperty.instance().getNestedProperty(getBackBean(), path);

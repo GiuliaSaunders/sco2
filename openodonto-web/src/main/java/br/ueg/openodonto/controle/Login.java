@@ -24,7 +24,7 @@ public class Login implements Serializable{
 	private static final long serialVersionUID = -7584236627686667592L;
 	
 	private Usuario usuario;
-	private LoginManager loginDao;
+	private transient LoginManager loginDao;
 	private ApplicationContext context;
 	private ApplicationView view;
 

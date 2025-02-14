@@ -9,6 +9,6 @@
 	    <a4j:commandLink rendered="#{empty facesContext.externalContext.sessionMap.usuarioSessao}" action="login" style="COLOR: #f1f2f3;font-weight : bold;font-size : 16px">#{msg.login}</a4j:commandLink>
 		<h:graphicImage rendered="#{not empty facesContext.externalContext.sessionMap.usuarioSessao}" value="/images/user-32x32.png" height="24" />
 		<h:outputText rendered="#{not emptyfacesContext.externalContext.sessionMap.usuarioSessao}" value="#{facesContext.externalContext.sessionMap.usuarioSessao.nomeApresentacao}"  style="COLOR: #f1f2f3;font-weight : bold;font-size : 12px"/>
-		<a4j:commandLink rendered="#{not empty facesContext.externalContext.sessionMap.usuarioSessao}" value="#{msg.logout}" action="#{login.acaoLogout}" style="COLOR: #000000;font-size : 8x"/>
+		<a4j:commandLink rendered="#{not empty facesContext.externalContext.sessionMap.usuarioSessao}" value="#{msg.logout}" action="#{login.acaoLogout}" style="COLOR: #000000;font-size : 8px"/>
 	</h:panelGrid>
 </ui:composition>	

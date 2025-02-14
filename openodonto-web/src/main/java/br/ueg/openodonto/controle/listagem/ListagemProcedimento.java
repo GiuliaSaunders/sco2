@@ -43,7 +43,7 @@ public class ListagemProcedimento extends ListaDominio<Procedimento> {
 				return -1;
 			}else if(o2 == null){
 				return 1;
-			}else if(o1.getNome() == o2.getNome()){
+			}else if(o1.getNome().equals(o2.getNome())){
 				return 0;
 			}else if(o1.getNome() == null || o1.getNome().isEmpty()){
 				return -1;

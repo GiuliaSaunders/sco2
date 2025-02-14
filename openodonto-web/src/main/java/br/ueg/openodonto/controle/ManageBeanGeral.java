@@ -102,7 +102,7 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 
 	@SuppressWarnings("unchecked")
 	protected List<ValidationRequest> getCamposObrigatorios(){
-		return Collections.EMPTY_LIST;
+		return Collections.emptyList();
 	}
 	
 	@SuppressWarnings("unchecked")

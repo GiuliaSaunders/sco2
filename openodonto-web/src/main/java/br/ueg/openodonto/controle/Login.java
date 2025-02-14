@@ -25,6 +25,7 @@ public class Login implements Serializable{
 	
 	private Usuario usuario;
 	private LoginManager loginDao;
+
 	private ApplicationContext context;
 	private ApplicationView view;
 

@@ -189,7 +189,6 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 			this.dao.alterar(this.backBean);
 		} catch (Exception ex) {
 			handleSalvarException(ex);
-			return;
 		} finally {
 			dao.closeConnection();
 		}

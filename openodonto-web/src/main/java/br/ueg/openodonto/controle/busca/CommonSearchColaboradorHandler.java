@@ -30,7 +30,12 @@ public abstract class CommonSearchColaboradorHandler extends CommonSearchBeanHan
 			Map<String,Object> value = iterator.next();
 			Object cpf = value.get("cpf");
 			Object cnpj = value.get("cnpj");
-			String documento = (cpf == null ? (cnpj != null ? cnpj : "") : cpf).toString();
+			String documento = "";
+			if(cpf == null){
+				documento = (cnpj != null ? cnpj : "").toString();
+			} else {
+				documento = cpf.toString();
+			}
 			value.put("documento", documento);
 			resultWrap.add(buildWrapBean(value));
 		}

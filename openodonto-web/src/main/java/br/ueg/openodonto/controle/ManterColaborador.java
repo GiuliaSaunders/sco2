@@ -97,13 +97,10 @@ public class ManterColaborador extends ManageBeanGeral<Colaborador> {
 	}
 	
 	private void clearUnsedDocument(){
-		switch (tipoPessoa) {
-		case PESSOA_FISICA:
+		if (tipoPessoa == PESSOA_FISICA) {
 			getColaborador().setCnpj(null);
-			break;
-		case PESSOA_JURIDICA:	
+		} else {
 			getColaborador().setCpf(null);
-			break;
 		}
 	}
 	

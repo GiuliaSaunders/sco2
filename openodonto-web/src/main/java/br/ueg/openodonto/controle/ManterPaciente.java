@@ -2,6 +2,8 @@ package br.ueg.openodonto.controle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,9 +90,7 @@ public class ManterPaciente extends ManageBeanGeral<Paciente> {
 		obrigatorios.add((new ValidationRequest("nome", ValidatorFactory.newStrEmpty(),"formPaciente:entradaNome")));
 		obrigatorios.add(new ValidationRequest("cpf",ValidatorFactory.newStrEmpty(),"formPaciente:entradaCpf"));
 		ValidationRequest[] validationsAnamnese = getManageQA().getValidationsObrigatorio();
-		for(ValidationRequest vr : validationsAnamnese){
-			obrigatorios.add(vr);
-		}
+		Collections.addAll(obrigatorios, validationsAnamnese);
 		return obrigatorios;
 	}
 	

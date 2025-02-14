@@ -39,8 +39,8 @@ public class ManageExample<T> implements Serializable{
 
 	private SearchFilter findSearchFilter(String name,List<SearchFilter> filters){
 		for(Iterator<SearchFilter> iterator = filters.iterator();iterator.hasNext();){
-			SearchFilter filter;
-			if((filter = iterator.next()).getName().equals(name)){
+			SearchFilter filter = iterator.next();
+			if(filter.getName().equals(name)){
 				return filter;
 			}
 		}

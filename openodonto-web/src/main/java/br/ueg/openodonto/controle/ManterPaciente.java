@@ -107,9 +107,7 @@ public class ManterPaciente extends ManageBeanGeral<Paciente> {
 		validados.add(new ValidationRequest("cidade", ValidatorFactory.newStrRangeLen(45,3, true), "formPaciente:entradaCidade",allowed));
 		validados.add(new ValidationRequest("cpf",ValidatorFactory.newCpf(),"formPaciente:entradaCpf"));		
 		ValidationRequest[] validationsAnamnese = getManageQA().getValidationsValidados();
-		for(ValidationRequest vr : validationsAnamnese){
-			validados.add(vr);
-		}
+		validados.add(Arrays.copyOf(validationsAnamnese, validationsAnamnese.length))
 		return validados;
 	}
 	

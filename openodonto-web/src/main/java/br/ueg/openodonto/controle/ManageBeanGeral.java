@@ -239,7 +239,7 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	}
 
 
-	protected void carregarExtra(){};
+	protected void carregarExtra(){}
 
 	public T getBackBean() {
 		return this.backBean;

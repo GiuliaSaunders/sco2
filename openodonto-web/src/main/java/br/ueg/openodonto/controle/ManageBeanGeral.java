@@ -37,6 +37,8 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 
 	private static final long serialVersionUID = -6270953407778330292L;
 
+	protected static final String SAIDA_PADRAO = "saidaPadrao";
+
 	private T                   backBean;
 	private Class<T>            classe;
 	protected EntityManager<T>  dao;
@@ -174,12 +176,12 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 			acaoFormatarCampos();
 			if(!checarCamposObrigatorios()) {
 				exibirPopUp(getView().getMessageFromResource("camposObrigatorios"));
-				getView().addLocalMessage("camposObrigatorios", "saidaPadrao", true);
+				getView().addLocalMessage("camposObrigatorios", SAIDA_PADRAO, true);
 				return;
 			}
 			if(!checarCamposValidados()){
 				exibirPopUp(getView().getMessageFromResource("camposInvalidos"));
-				getView().addLocalMessage("camposInvalidos", "saidaPadrao", true);
+				getView().addLocalMessage("camposInvalidos", SAIDA_PADRAO, true);
 				return;
 			}
 			if (dao.exists(getBackBean())){
@@ -195,12 +197,12 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		}
 		init();
 		exibirPopUp(getView().getMessageFromResource(alredy ? "Atualizado" : "Cadastro"));
-		getView().addLocalMessage(alredy ? "Atualizado" : "Cadastro", "saidaPadrao", true);
+		getView().addLocalMessage(alredy ? "Atualizado" : "Cadastro", SAIDA_PADRAO, true);
 	}
 
 	protected void handleSalvarException(Exception ex){
 		exibirPopUp(getView().getMessageFromResource("ErroSistema"));
-		getView().addLocalMessage("ErroSistema", "saidaPadrao", true);
+		getView().addLocalMessage("ErroSistema", SAIDA_PADRAO, true);
 		ex.printStackTrace();
 	}
 	
@@ -212,23 +214,23 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 				this.dao.remover(this.backBean);
 			}else{
 				exibirPopUp(getView().getMessageFromResource("naoPodeRemover"));
-				getView().addLocalMessage("naoPodeRemover","saidaPadrao", true);
+				getView().addLocalMessage("naoPodeRemover",SAIDA_PADRAO, true);
 				return;
 			}
 		}catch(SQLIntegrityConstraintViolationException fke){
 			exibirPopUp("Registro Referenciado.");
-			getView().addLocalDynamicMenssage("Registro Referenciado.","saidaPadrao", true);
+			getView().addLocalDynamicMenssage("Registro Referenciado.", SAIDA_PADRAO, true);
 			return;
 		} catch (Exception e) {
 			exibirPopUp("Não foi possivel remover o registro.");
-			getView().addLocalDynamicMenssage("Nao foi possivel remover o registro.","saidaPadrao", true);
+			getView().addLocalDynamicMenssage("Nao foi possivel remover o registro.", SAIDA_PADRAO, true);
 			return;
 		} finally {
 			dao.closeConnection();
 		}
 		init();
 		exibirPopUp(getView().getMessageFromResource("removido"));
-		getView().addLocalMessage("removido", "saidaPadrao", true);
+		getView().addLocalMessage("removido", SAIDA_PADRAO, true);
 	}
 
 	public void acaoAtualizar() {

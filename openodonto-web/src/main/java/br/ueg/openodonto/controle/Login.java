@@ -32,7 +32,7 @@ public class Login implements Serializable{
 		this.usuario = new Usuario();
 		this.loginDao = new DaoLogin();
 		this.context = new WebContext();
-		makeView(Collections.emptyMap());
+		makeView(Collections.EMPTY_MAP);
 	}
 
 	public String acaoAutenticarUsuario() {

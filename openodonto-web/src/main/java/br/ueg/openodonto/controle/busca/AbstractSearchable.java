@@ -30,7 +30,7 @@ public abstract class AbstractSearchable<T> implements Searchable<T>,Serializabl
 	private List<InputMask>            masksList;
 	
 	
-	public AbstractSearchable(Class<T> classe,MessageDisplayer displayer) {
+	protected AbstractSearchable(Class<T> classe,MessageDisplayer displayer) {
 		this.displayer = displayer;
 		buildMask();
 		buildFilter();

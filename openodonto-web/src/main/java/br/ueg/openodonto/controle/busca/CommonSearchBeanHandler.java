@@ -67,8 +67,7 @@ public abstract class CommonSearchBeanHandler<E> extends AbstractSearchListener{
 	public List<Map<String,Object>> evaluateResult(Search<E> search) throws SQLException{
 		E target = buildExample(search.getSearchable());
 		IQuery query = getQuery(target);				
-		List<Map<String,Object>> result = dao.getSqlExecutor().executarUntypedQuery(query);
-		return result;
+		return dao.getSqlExecutor().executarUntypedQuery(query);
 	}
 	
 	public IQuery getQuery(E example){

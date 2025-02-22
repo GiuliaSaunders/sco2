@@ -33,39 +33,40 @@ import br.ueg.openodonto.web.WebContext;
  * 
  * @param <T>
  */
-public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
+public abstract class ManageBeanGeral<T extends Entity> implements Serializable {
 
 	private static final long serialVersionUID = -6270953407778330292L;
 
 	protected static final String SAIDA_PADRAO = "saidaPadrao";
 
-	private T                   backBean;
-	private Class<T>            classe;
-	protected EntityManager<T>  dao;
-	private ApplicationContext  context;
-	private ApplicationView     view;
-	private String              msgBundle;
-	private boolean             canDelete;
-	private DecimalFormat       decimalFormat;
+	private T backBean;
+	private Class<T> classe;
+	protected EntityManager<T> dao;
+	private ApplicationContext context;
+	private ApplicationView view;
+	private String msgBundle;
+	private boolean canDelete;
+	private DecimalFormat decimalFormat;
 
 	protected ManageBeanGeral(Class<T> classe) {
 		this.classe = classe;
 		init();
 	}
-	
-	protected void initExtra(){}
+
+	protected void initExtra() {
+	}
 
 	protected void init() {
 		this.canDelete = false;
 		this.backBean = fabricarNovoBean();
-		this.dao = getDao(classe);		
+		this.dao = getDao(classe);
 		this.context = new WebContext();
 		decimalFormat = (DecimalFormat) NumberFormat.getCurrencyInstance(getContext().getClientLocale());
 		initExtra();
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public static <E extends Entity> EntityManager<E> getDao(Class<E> clazz){
+	public static <E extends Entity> EntityManager<E> getDao(Class<E> clazz) {
 		String name = "Dao" + clazz.getSimpleName();
 		String pakage = "br.ueg.openodonto.persistencia.dao";
 		try {
@@ -76,7 +77,7 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		}
 		return null;
 	}
-	
+
 	protected T fabricarNovoBean() {
 		try {
 			return classe.newInstance();
@@ -101,29 +102,28 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<ValidationRequest> getCamposObrigatorios(){
+	protected List<ValidationRequest> getCamposObrigatorios() {
 		return Collections.emptyList();
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected List<ValidationRequest> getCamposValidados(){
-		return Collections.EMPTY_LIST;
+	protected List<ValidationRequest> getCamposValidados() {
+		return Collections.emptyList();
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List<String> getCamposFormatados(){
-		return Collections.EMPTY_LIST;
+	protected List<String> getCamposFormatados() {
+		return Collections.emptyList();
 	}
-
 
 	protected void acaoFormatarCampos() throws Exception {
 		List<String> camposFormatados = getCamposFormatados();
 		for (String path : camposFormatados) {
 			Object o = BeanProperty.instance().getNestedProperty(getBackBean(), path);
 			String campoParaFormatar = null;
-			if (o != null){
+			if (o != null) {
 				campoParaFormatar = String.valueOf(o);
-			}else{
+			} else {
 				continue;
 			}
 			if (!campoParaFormatar.isEmpty()) {
@@ -133,27 +133,28 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		}
 	}
 
-	protected boolean evaluateValidators(List<ValidationRequest> validations) throws Exception{
+	protected boolean evaluateValidators(List<ValidationRequest> validations) throws Exception {
 		boolean returned = true;
 		for (ValidationRequest validation : validations) {
 			Validator validador = validation.getValidator();
-			if(validation.getPath() != null && !validation.getPath().isEmpty()){
+			if (validation.getPath() != null && !validation.getPath().isEmpty()) {
 				validador.setValue(BeanProperty.instance().getNestedProperty(getBackBean(), validation.getPath()));
 			}
-			if (!validador.isValid() && ValidatorFactory.checkInvalidPermiteds(validation.getInvalidPermiteds(),validador)) {
-				for(String out : validation.getOut()){
+			if (!validador.isValid()
+					&& ValidatorFactory.checkInvalidPermiteds(validation.getInvalidPermiteds(), validador)) {
+				for (String out : validation.getOut()) {
 					getView().addLocalDynamicMenssage("* " + validador.getErrorMessage(), out, false);
-				}				
+				}
 				returned = false;
 			}
 		}
 		return returned;
 	}
-	
+
 	protected boolean checarCamposObrigatoriosExtras() {
 		return true;
 	}
-	
+
 	protected boolean checarCamposObrigatorios() throws Exception {
 		List<ValidationRequest> camposObrigatorios = getCamposObrigatorios();
 		return checarCamposObrigatoriosExtras() && evaluateValidators(camposObrigatorios);
@@ -162,27 +163,27 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	protected boolean checarCamposValidadosExtras() {
 		return true;
 	}
-	
-	protected boolean checarCamposValidados()throws Exception{
+
+	protected boolean checarCamposValidados() throws Exception {
 		List<ValidationRequest> camposValidados = getCamposValidados();
 		return checarCamposValidadosExtras() && evaluateValidators(camposValidados);
 	}
-	
+
 	public void acaoSalvar() {
 		boolean alredy = false;
 		try {
 			acaoFormatarCampos();
-			if(!checarCamposObrigatorios()) {
+			if (!checarCamposObrigatorios()) {
 				exibirPopUp(getView().getMessageFromResource("camposObrigatorios"));
 				getView().addLocalMessage("camposObrigatorios", SAIDA_PADRAO, true);
 				return;
 			}
-			if(!checarCamposValidados()){
+			if (!checarCamposValidados()) {
 				exibirPopUp(getView().getMessageFromResource("camposInvalidos"));
 				getView().addLocalMessage("camposInvalidos", SAIDA_PADRAO, true);
 				return;
 			}
-			if (dao.exists(getBackBean())){
+			if (dao.exists(getBackBean())) {
 				alredy = true;
 			}
 			acaoSalvarExtra();
@@ -197,24 +198,25 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		getView().addLocalMessage(alredy ? "Atualizado" : "Cadastro", SAIDA_PADRAO, true);
 	}
 
-	protected void handleSalvarException(Exception ex){
+	protected void handleSalvarException(Exception ex) {
 		exibirPopUp(getView().getMessageFromResource("ErroSistema"));
 		getView().addLocalMessage("ErroSistema", SAIDA_PADRAO, true);
 		ex.printStackTrace();
 	}
-	
-	public void acaoSalvarExtra() {}
+
+	public void acaoSalvarExtra() {
+	}
 
 	public void acaoRemoverSim() {
 		try {
-			if(canDelete){
+			if (canDelete) {
 				this.dao.remover(this.backBean);
-			}else{
+			} else {
 				exibirPopUp(getView().getMessageFromResource("naoPodeRemover"));
-				getView().addLocalMessage("naoPodeRemover",SAIDA_PADRAO, true);
+				getView().addLocalMessage("naoPodeRemover", SAIDA_PADRAO, true);
 				return;
 			}
-		}catch(SQLIntegrityConstraintViolationException fke){
+		} catch (SQLIntegrityConstraintViolationException fke) {
 			exibirPopUp("Registro Referenciado.");
 			getView().addLocalDynamicMenssage("Registro Referenciado.", SAIDA_PADRAO, true);
 			return;
@@ -238,8 +240,8 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 		return getContext().getUsuarioSessao();
 	}
 
-
-	protected void carregarExtra(){}
+	protected void carregarExtra() {
+	}
 
 	public T getBackBean() {
 		return this.backBean;
@@ -248,7 +250,7 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	public void setBackBean(T backBean) {
 		this.backBean = backBean;
 	}
-	
+
 	public String getMsgBundle() {
 		return this.msgBundle;
 	}
@@ -256,19 +258,19 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	public void setMsgBundle(String msgBundle) {
 		this.msgBundle = msgBundle;
 	}
-	
+
 	public ApplicationContext getContext() {
 		return context;
 	}
 
-	public Currency getCurrency(){
+	public Currency getCurrency() {
 		return Currency.getInstance(getContext().getClientLocale());
 	}
-	
-	public DecimalFormatSymbols getDecimalSymbols(){
+
+	public DecimalFormatSymbols getDecimalSymbols() {
 		return this.decimalFormat.getDecimalFormatSymbols();
 	}
-	
+
 	public void setContext(ApplicationContext context) {
 		this.context = context;
 	}
@@ -288,47 +290,55 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable{
 	public boolean isCanDelete() {
 		return canDelete;
 	}
-	
+
 	public void makeView(Map<String, String> params) {
-		this.view = ApplicationViewFactory.getViewInstance(ViewHandler.JSF,	params);
+		this.view = ApplicationViewFactory.getViewInstance(ViewHandler.JSF, params);
 	}
-	
-	protected class SearchPessoaSelectedHandler extends CommonSearchPessoaSelectedHandler<T>{
+
+	protected class SearchPessoaSelectedHandler extends CommonSearchPessoaSelectedHandler<T> {
 		private static final long serialVersionUID = 7996822907210618133L;
+
 		@Override
 		public EntityManager<T> getSuperDao() {
 			return getDao();
 		}
+
 		@Override
 		public void extraLoad() {
 			carregarExtra();
 		}
+
 		@Override
 		public Pessoa getBean() {
-			return (Pessoa)getBackBean();
+			return (Pessoa) getBackBean();
 		}
+
 		@SuppressWarnings("unchecked")
 		@Override
 		public void setBean(Pessoa bean) {
 			canDelete = true;
-			setBackBean((T)bean);
-		}	
-	}	
+			setBackBean((T) bean);
+		}
+	}
 
-	public class SearchSelectedHandler extends CommonSearchSelectedHandler<T>{
+	public class SearchSelectedHandler extends CommonSearchSelectedHandler<T> {
 		private static final long serialVersionUID = 9152759135402687202L;
+
 		public SearchSelectedHandler() {
 			super(getDao());
 		}
+
 		@Override
 		public void extraLoad() {
 			canDelete = true;
 			carregarExtra();
 		}
+
 		@Override
 		public T getBean() {
 			return getBackBean();
 		}
+
 		@Override
 		public void setBean(T bean) {
 			setBackBean(bean);

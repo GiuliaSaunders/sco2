@@ -214,16 +214,13 @@ public abstract class ManageBeanGeral<T extends Entity> implements Serializable 
 			} else {
 				exibirPopUp(getView().getMessageFromResource("naoPodeRemover"));
 				getView().addLocalMessage("naoPodeRemover", SAIDA_PADRAO, true);
-				return;
 			}
 		} catch (SQLIntegrityConstraintViolationException fke) {
 			exibirPopUp("Registro Referenciado.");
 			getView().addLocalDynamicMenssage("Registro Referenciado.", SAIDA_PADRAO, true);
-			return;
 		} catch (Exception e) {
 			exibirPopUp("Não foi possivel remover o registro.");
 			getView().addLocalDynamicMenssage("Nao foi possivel remover o registro.", SAIDA_PADRAO, true);
-			return;
 		} finally {
 			dao.closeConnection();
 		}
